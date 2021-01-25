@@ -6,6 +6,7 @@ use app\models\LibrosForm;
 use app\models\LibrosSearch;
 use Yii;
 use yii\data\Pagination;
+use yii\data\Sort;
 use yii\db\Query;
 use yii\web\Controller;
 
@@ -50,12 +51,31 @@ class LibrosController extends Controller
             'totalCount' => $libros->count(),
         ]);
 
+        $sort = new Sort([
+            'attributes' => [
+                'isbn' => [
+                    'asc' => ['isbn' => SORT_ASC],
+                    'desc' => ['isbn' => SORT_DESC],
+                    'default' => SORT_ASC,
+                    'label' => 'ISBN',
+                ],
+                'titulo' => [
+                    'label' => 'Título',
+                ],
+                'anyo' => [
+                    'label' => 'Año',
+                ],
+            ],
+        ]);
+
         $libros->limit($pagination->limit)->offset($pagination->offset);
+        $libros->orderBy($sort->orders);
 
         return $this->render('index', [
             'libros' => $libros->all(),
             'librosSearch' => $librosSearch,
             'pagination' => $pagination,
+            'sort' => $sort,
         ]);
     }
 }

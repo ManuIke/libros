@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <thead>
         <th><?= $sort->link('isbn') ?></th>
         <th><?= $sort->link('titulo') ?></th>
+        <th><?= $sort->link('nombre') ?></th>
         <th><?= $sort->link('anyo') ?></th>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <tr>
                 <td><?= Html::encode($libro['isbn']) ?></td>
                 <td><?= Html::encode($libro['titulo']) ?></td>
+                <td>
+                    <?= Html::a(Html::encode($libro['nombre']), [
+                        'autores/view',
+                        'id' => $libro['autor_id'],
+                    ]) ?>
+                </td>
                 <td><?= Html::encode($libro['anyo']) ?></td>
             </tr>
         <?php endforeach ?>

@@ -4,6 +4,7 @@ use yii\bootstrap4\LinkPager;
 use yii\helpers\Html;
 
 $this->title = 'Detalle del autor ' . Html::encode($autor['nombre']);
+$this->params['breadcrumbs'][] = ['label' => 'Autores', 'url' => ['autores/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

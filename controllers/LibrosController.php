@@ -38,7 +38,10 @@ class LibrosController extends Controller
     public function actionIndex()
     {
         $librosSearch = new LibrosSearch();
-        $libros = (new Query())->from('libros');
+        $libros = (new Query())
+            ->select('libros.*, nombre')
+            ->from('libros')
+            ->leftJoin('autores', 'libros.autor_id = autores.id');
         
         if ($librosSearch->load(Yii::$app->request->queryParams)
             && $librosSearch->validate()) {
@@ -64,6 +67,11 @@ class LibrosController extends Controller
                 ],
                 'anyo' => [
                     'label' => 'Año',
+                ],
+                'nombre' => [
+                    'asc' => ['nombre' => SORT_ASC],
+                    'desc' => ['nombre' => SORT_DESC],
+                    'label' => 'Autor',
                 ],
             ],
         ]);

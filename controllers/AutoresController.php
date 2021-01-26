@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use yii\data\ActiveDataFilter;
+use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\data\Sort;
 use yii\db\Query;
@@ -12,30 +14,24 @@ class AutoresController extends Controller
 {
     public function actionIndex()
     {
-        $autores = (new Query())->from('autores');
-
-        $pagination = new Pagination([
-            'pageSize' => 2,
-            'totalCount' => $autores->count(),
-        ]);
-
-        $sort = new Sort([
-            'attributes' => [
-                'nombre' => [
-                    'asc' => ['nombre' => SORT_ASC],
-                    'desc' => ['nombre' => SORT_DESC],
-                    'label' => 'Nombre',
-                ],
+        $dataProvider = new ActiveDataProvider([
+            'query' => (new Query())->from('autores'),
+            'pagination' => [
+                'pageSize' => 2,
             ],
+            'sort' => [
+                'attributes' => [
+                    'nombre' => [
+                        'asc' => ['nombre' => SORT_ASC],
+                        'desc' => ['nombre' => SORT_DESC],
+                        'label' => 'Nombre',
+                    ],
+                ],
+            ]
         ]);
-
-        $autores->limit($pagination->limit)->offset($pagination->offset);
-        $autores->orderBy($sort->orders);
 
         return $this->render('index', [
-            'autores' => $autores->all(),
-            'pagination' => $pagination,
-            'sort' => $sort,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

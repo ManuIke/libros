@@ -48,7 +48,7 @@ class LibrosController extends Controller
             $libros->filterWhere(['isbn' => $librosSearch->isbn]);
             $libros->andFilterWhere(['like', 'titulo', $librosSearch->titulo]);
         }
-        
+
         $pagination = new Pagination([
             'pageSize' => 5,
             'totalCount' => $libros->count(),

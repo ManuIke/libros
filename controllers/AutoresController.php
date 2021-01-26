@@ -46,11 +46,6 @@ class AutoresController extends Controller
             ->from('libros')
             ->where(['autor_id' => $id]);
     
-        $pagination = new Pagination([
-            'pageSize' => 2,
-            'totalCount' => $libros->count(),
-        ]);
-
         $sort = new Sort([
             'attributes' => [
                 'isbn' => [
@@ -68,13 +63,11 @@ class AutoresController extends Controller
             ],
         ]);
 
-        $libros->limit($pagination->limit)->offset($pagination->offset);
         $libros->orderBy($sort->orders);
 
         return $this->render('view', [
             'autor' => $autor,
-            'libros' => $libros->all(),
-            'pagination' => $pagination,
+            'libros' => $libros,
             'sort' => $sort,
         ]);
     }

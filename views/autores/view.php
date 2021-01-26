@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <th><?= $sort->link('anyo') ?></th>
     </thead>
     <tbody>
-        <?php foreach ($libros as $libro): ?>
+        <?php foreach ($libros->each() as $libro): ?>
             <tr>
                 <td><?= Html::encode($libro['isbn']) ?></td>
                 <td><?= Html::encode($libro['titulo']) ?></td>
@@ -26,9 +26,3 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endforeach ?>
     </tbody>
 </table>
-
-<div>
-    <?= LinkPager::widget([
-        'pagination' => $pagination,
-    ]) ?>
-</div>

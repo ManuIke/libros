@@ -2,10 +2,7 @@
 
 namespace app\controllers;
 
-use yii\data\ActiveDataFilter;
 use yii\data\ActiveDataProvider;
-use yii\data\Pagination;
-use yii\data\Sort;
 use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -42,29 +39,30 @@ class AutoresController extends Controller
             ->from('libros')
             ->where(['autor_id' => $id]);
     
-        $sort = new Sort([
-            'attributes' => [
-                'isbn' => [
-                    'asc' => ['isbn' => SORT_ASC],
-                    'desc' => ['isbn' => SORT_DESC],
-                    'default' => SORT_ASC,
-                    'label' => 'ISBN',
+        $dataProvider = new ActiveDataProvider([
+            'query' => $libros,
+            'pagination' => false,
+            'sort' => [
+                'attributes' => [
+                    'isbn' => [
+                        'asc' => ['isbn' => SORT_ASC],
+                        'desc' => ['isbn' => SORT_DESC],
+                        'default' => SORT_ASC,
+                        'label' => 'ISBN',
+                    ],
+                    'titulo' => [
+                        'label' => 'Título',
+                    ],
+                    'anyo' => [
+                        'label' => 'Año',
+                    ],
                 ],
-                'titulo' => [
-                    'label' => 'Título',
-                ],
-                'anyo' => [
-                    'label' => 'Año',
-                ],
-            ],
+            ]
         ]);
-
-        $libros->orderBy($sort->orders);
 
         return $this->render('view', [
             'autor' => $autor,
-            'libros' => $libros,
-            'sort' => $sort,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

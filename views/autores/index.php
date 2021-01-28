@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => function ($model, $key, $index, $column) {
                 return Html::a('Ver', [
                     'autores/view',
-                    'id' => $model['id'],
+                    'id' => $model->id,
                 ], ['class' => 'btn btn-sm btn-info']);
             },
             'format' => 'html',

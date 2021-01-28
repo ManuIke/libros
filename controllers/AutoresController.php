@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Autores;
+use app\models\Libros;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
@@ -12,7 +14,7 @@ class AutoresController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => (new Query())->from('autores'),
+            'query' => Autores::find(),
             'pagination' => [
                 'pageSize' => 2,
             ],
@@ -66,14 +68,23 @@ class AutoresController extends Controller
         ]);
     }
 
+    public function actionPrueba()
+    {
+        $libros = Libros::find()->all();
+
+        foreach ($libros as $libro) {
+            echo $libro->titulo;
+            echo $libro->autor->nombre;
+        }
+
+        return $this->render('prueba');
+    }
+
     private function findAutor($id)
     {
-        $autor = (new Query())
-            ->from('autores')
-            ->where(['id' => $id])
-            ->one();
+        $autor = Autores::findOne($id);
 
-        if ($autor === false) {
+        if ($autor === null) {
             throw new NotFoundHttpException('Ese autor no existe.');
         }
 

@@ -1,7 +1,7 @@
 <?php
 
+use yii\bootstrap4\Html;
 use yii\grid\GridView;
-use yii\helpers\Html;
 
 $this->title = 'Autores';
 $this->params['breadcrumbs'][] = $this->title;
@@ -11,15 +11,11 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'columns' => [
         'nombre',
-        [
-            'label' => 'Acciones',
-            'value' => function ($model, $key, $index, $column) {
-                return Html::a('Ver', [
-                    'autores/view',
-                    'id' => $model->id,
-                ], ['class' => 'btn btn-sm btn-info']);
-            },
-            'format' => 'html',
-        ],
     ],
 ]) ?>
+
+<?= Html::a(
+    'Crear un nuevo autor',
+    ['autores/create'],
+    ['class' => 'btn btn-info']
+) ?>

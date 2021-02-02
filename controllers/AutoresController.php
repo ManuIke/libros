@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Autores;
 use app\models\Libros;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
@@ -11,6 +12,20 @@ use yii\web\NotFoundHttpException;
 
 class AutoresController extends Controller
 {
+    public function actionCreate()
+    {
+        $autor = new Autores();
+
+        if ($autor->load(Yii::$app->request->post()) && $autor->save()) {
+            Yii::$app->session->setFlash('success', 'El autor se ha podido crear correctamente.');
+            return $this->redirect(['autores/index']);    
+        }
+
+        return $this->render('create', [
+            'autor' => $autor,
+        ]);
+    }
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

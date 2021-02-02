@@ -14,7 +14,8 @@ class Autores extends ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'string', 'skipOnEmpty' => false, 'length' => [4, 10]],
+            [['nombre'], 'required'],
+            [['nombre'], 'string', 'max' => 255],
         ];
     }
 

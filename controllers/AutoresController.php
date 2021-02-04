@@ -30,9 +30,6 @@ class AutoresController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Autores::find(),
-            'pagination' => [
-                'pageSize' => 2,
-            ],
         ]);
 
         return $this->render('index', [
@@ -43,29 +40,10 @@ class AutoresController extends Controller
     public function actionView($id)
     {
         $autor = $this->findAutor($id);
-        $libros = (new Query())
-            ->from('libros')
-            ->where(['autor_id' => $id]);
     
         $dataProvider = new ActiveDataProvider([
-            'query' => $libros,
+            'query' => $autor->getLibros(),
             'pagination' => false,
-            'sort' => [
-                'attributes' => [
-                    'isbn' => [
-                        'asc' => ['isbn' => SORT_ASC],
-                        'desc' => ['isbn' => SORT_DESC],
-                        'default' => SORT_ASC,
-                        'label' => 'ISBN',
-                    ],
-                    'titulo' => [
-                        'label' => 'Título',
-                    ],
-                    'anyo' => [
-                        'label' => 'Año',
-                    ],
-                ],
-            ]
         ]);
 
         return $this->render('view', [
@@ -95,6 +73,20 @@ class AutoresController extends Controller
         }
 
         return $this->render('prueba');
+    }
+
+    public function actionUpdate($id)
+    {
+        $autor = $this->findAutor($id);
+
+        if ($autor->load(Yii::$app->request->post()) && $autor->save()) {
+            Yii::$app->session->setFlash('success', 'El autor se ha podido modificar correctamente.');
+            return $this->redirect(['autores/index']);    
+        }
+
+        return $this->render('update', [
+            'autor' => $autor,
+        ]);
     }
 
     private function findAutor($id)

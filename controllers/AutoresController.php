@@ -6,7 +6,6 @@ use app\models\Autores;
 use app\models\Libros;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 

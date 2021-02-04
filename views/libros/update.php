@@ -3,7 +3,7 @@
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
-$this->title = 'Crear un nuevo libro';
+$this->title = 'Modificar un nuevo libro';
 $this->params['breadcrumbs'][] = [
     'label' => 'Libros',
     'url' => ['libros/index']
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($libro, 'autor_id') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Crear', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
 
 <?php ActiveForm::end() ?>

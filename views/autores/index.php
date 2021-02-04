@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\Html;
+use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 $this->title = 'Autores';
@@ -11,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'columns' => [
         'nombre',
+        ['__class' => ActionColumn::class],
     ],
 ]) ?>
 

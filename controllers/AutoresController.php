@@ -83,6 +83,19 @@ class AutoresController extends Controller
         ]);
     }
 
+    public function actionDelete($id)
+    {
+        $autor = $this->findAutor($id);
+
+        if ($autor->getLibros()->exists()) {
+            Yii::$app->session->setFlash('error', 'El autor tiene libros asociados.');
+        } else {
+            $autor->delete();
+        }
+
+        return $this->redirect(['autores/index']);    
+    }
+
     public function actionPrueba()
     {
         $libros = Libros::find()->all();

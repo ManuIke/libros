@@ -33,15 +33,6 @@ class AutoresController extends Controller
             'pagination' => [
                 'pageSize' => 2,
             ],
-            'sort' => [
-                'attributes' => [
-                    'nombre' => [
-                        'asc' => ['nombre' => SORT_ASC],
-                        'desc' => ['nombre' => SORT_DESC],
-                        'label' => 'Nombre',
-                    ],
-                ],
-            ]
         ]);
 
         return $this->render('index', [
@@ -85,12 +76,10 @@ class AutoresController extends Controller
 
     public function actionDelete($id)
     {
-        $autor = $this->findAutor($id);
-
-        if ($autor->getLibros()->exists()) {
-            Yii::$app->session->setFlash('error', 'El autor tiene libros asociados.');
+        if ($this->findAutor($id)->delete()) {
+            Yii::$app->session->setFlash('success', 'El autor se ha borrado correctamente.');
         } else {
-            $autor->delete();
+            Yii::$app->session->setFlash('error', 'El autor tiene libros asociados.');
         }
 
         return $this->redirect(['autores/index']);    

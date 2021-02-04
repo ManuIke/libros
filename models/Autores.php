@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 class Autores extends ActiveRecord
@@ -30,5 +31,18 @@ class Autores extends ActiveRecord
     {
         return $this->hasMany(Libros::class, ['autor_id' => 'id'])
             ->inverseOf('autor');
+    }
+
+    public function beforeDelete()
+    {
+        if (!parent::beforeDelete()) {
+            return false;
+        }
+
+        if ($this->getLibros()->exists()) {
+            return false;
+        }
+        
+        return true;
     }
 }

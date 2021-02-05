@@ -10,11 +10,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
+    'filterModel' => $filterModel,
     'columns' => [
         'isbn',
         'titulo',
         'anyo',
-        'autor.nombre',
+        [
+            'attribute' => 'autor.nombre',
+            'label' => 'Autor',
+        ],
         ['__class' => ActionColumn::class],
     ],
 ]) ?>

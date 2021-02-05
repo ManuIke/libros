@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Autores;
 use app\models\Libros;
+use app\models\LibrosSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -41,12 +42,12 @@ class LibrosController extends Controller
 
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Libros::find()->with('autor'),
-        ]);
+        $filterModel = new LibrosSearch();
+        $dataProvider = $filterModel->search(Yii::$app->request->get());
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'filterModel' => $filterModel,
         ]);
     }
 

@@ -10,9 +10,9 @@ use Yii;
  * @property int $id
  * @property string $nombre
  * @property string $password
- * @property string $auth_key
- * @property string $telefono
- * @property string $poblacion
+ * @property string|null $auth_key
+ * @property string|null $telefono
+ * @property string|null $poblacion
  */
 class Usuarios extends \yii\db\ActiveRecord
 {

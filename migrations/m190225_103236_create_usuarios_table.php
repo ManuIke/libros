@@ -13,7 +13,7 @@ class m190225_103236_create_usuarios_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%usuarios}}', [
-            'id' => $this->primaryKey(),
+            'id' => $this->bigPrimaryKey(),
             'nombre' => $this->string()->notNull(),
             'password' => $this->string(60)->notNull(),
             'auth_key' => $this->string(),

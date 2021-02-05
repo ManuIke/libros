@@ -52,7 +52,7 @@ class Libros extends \yii\db\ActiveRecord
             'isbn' => 'ISBN',
             'titulo' => 'Título',
             'anyo' => 'Año',
-            'autor_id' => 'Autor ID',
+            'autor_id' => 'Autor',
         ];
     }
 

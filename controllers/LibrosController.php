@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Autores;
 use app\models\Libros;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -15,11 +16,12 @@ class LibrosController extends Controller
         $libro = new Libros();
 
         if ($libro->load(Yii::$app->request->post()) && $libro->save()) {
-            return $this->redirect(['site/index']);
+            return $this->redirect(['libros/index']);
         }
 
         return $this->render('create', [
             'libro' => $libro,
+            'listaAutores' => $this->listaAutores(),
         ]);
     }
 
@@ -28,11 +30,12 @@ class LibrosController extends Controller
         $libro = $this->findLibro($id);
 
         if ($libro->load(Yii::$app->request->post()) && $libro->save()) {
-            return $this->redirect(['site/index']);
+            return $this->redirect(['libros/index']);
         }
 
         return $this->render('update', [
             'libro' => $libro,
+            'listaAutores' => $this->listaAutores(),
         ]);
     }
 
@@ -73,4 +76,10 @@ class LibrosController extends Controller
 
         return $autor;
     }
+
+    private function listaAutores()
+    {
+        return Autores::find()->select('nombre')->indexBy('id')->column();
+    }
+
 }

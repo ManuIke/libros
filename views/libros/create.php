@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($libro, 'isbn') ?>
     <?= $form->field($libro, 'titulo') ?>
     <?= $form->field($libro, 'anyo') ?>
-    <?= $form->field($libro, 'autor_id') ?>
+    <?= $form->field($libro, 'autor_id')->dropDownList($listaAutores) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Crear', ['class' => 'btn btn-primary']) ?>

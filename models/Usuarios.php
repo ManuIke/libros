@@ -40,6 +40,7 @@ class Usuarios extends \yii\db\ActiveRecord
             [['nombre', 'auth_key', 'telefono', 'poblacion'], 'string', 'max' => 255],
             [['password', 'password_repeat'], 'required', 'on' => [self::SCENARIO_CREATE]],
             [['password'], 'compare', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['password_repeat'], 'safe', 'on' => [self::SCENARIO_UPDATE]],
         ];
     }
 
@@ -71,8 +72,17 @@ class Usuarios extends \yii\db\ActiveRecord
 
         if ($insert) {
             if ($this->scenario === self::SCENARIO_CREATE) {
-                $this->password = Yii::$app->security
-                    ->generatePasswordHash($this->password);
+                goto salto;
+            }
+        } else {
+            if ($this->scenario === self::SCENARIO_UPDATE) {
+                if ($this->password === '') {
+                    $this->password = $this->getOldAttribute('password');
+                } else {
+                    salto:
+                    $this->password = Yii::$app->security
+                        ->generatePasswordHash($this->password);
+                }
             }
         }
 

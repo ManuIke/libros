@@ -16,6 +16,11 @@ use Yii;
  */
 class Usuarios extends \yii\db\ActiveRecord
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
+    public $password_repeat;
+
     /**
      * {@inheritdoc}
      */
@@ -30,10 +35,17 @@ class Usuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'password'], 'required'],
+            [['nombre'], 'required'],
+            [['nombre'], 'unique'],
             [['nombre', 'auth_key', 'telefono', 'poblacion'], 'string', 'max' => 255],
-            [['password'], 'string', 'max' => 60],
+            [['password', 'password_repeat'], 'required', 'on' => [self::SCENARIO_CREATE]],
+            [['password'], 'compare', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
         ];
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['password_repeat']);
     }
 
     /**
@@ -49,5 +61,21 @@ class Usuarios extends \yii\db\ActiveRecord
             'telefono' => 'Teléfono',
             'poblacion' => 'Población',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        if ($insert) {
+            if ($this->scenario === self::SCENARIO_CREATE) {
+                $this->password = Yii::$app->security
+                    ->generatePasswordHash($this->password);
+            }
+        }
+
+        return true;
     }
 }

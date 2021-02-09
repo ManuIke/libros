@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "usuarios".
@@ -14,7 +15,7 @@ use Yii;
  * @property string|null $telefono
  * @property string|null $poblacion
  */
-class Usuarios extends \yii\db\ActiveRecord
+class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -87,5 +88,38 @@ class Usuarios extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+    }
+
+    public function getAuthKey()
+    {
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function validateAuthKey($authKey)
+    {
+    }
+
+    public static function findByNombre($nombre)
+    {
+        return static::findOne(['nombre' => $nombre]);
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security
+            ->validatePassword($password, $this->password);
     }
 }

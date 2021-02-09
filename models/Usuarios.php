@@ -73,6 +73,8 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 
         if ($insert) {
             if ($this->scenario === self::SCENARIO_CREATE) {
+                $this->auth_key = Yii::$app->security
+                    ->generateRandomString();
                 goto salto;
             }
         } else {
@@ -101,6 +103,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function getAuthKey()
     {
+        return $this->auth_key;
     }
 
     public function getId()
@@ -110,6 +113,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function validateAuthKey($authKey)
     {
+        return $this->auth_key === $authKey;
     }
 
     public static function findByNombre($nombre)

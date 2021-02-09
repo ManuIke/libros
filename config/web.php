@@ -23,7 +23,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => app\models\Usuarios::class,
-            'enableAutoLogin' => false,
+            'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

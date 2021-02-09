@@ -6,11 +6,40 @@ use app\models\Autores;
 use app\models\Libros;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class AutoresController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                '__class' => AccessControl::class,
+                'only' => ['create'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            $user = Yii::$app->user->identity;
+                            return $user && $user->nombre == 'juan';
+                        },
+                    ],
+                ],
+            ],
+            'verbs' => [
+                '__class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $autor = new Autores();

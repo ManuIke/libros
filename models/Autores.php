@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Utilidad;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -17,6 +18,16 @@ class Autores extends ActiveRecord
         return [
             [['nombre'], 'required'],
             [['nombre'], 'string', 'max' => 255],
+            [
+                ['fechanac'],
+                'date',
+                'format' => 'php:' . Yii::$app->params['dateInputFormat'],
+            ],
+            [
+                ['fechanac'],
+                'filter',
+                'filter' => [Utilidad::class, 'convertirFormatoFecha'],
+            ],
         ];
     }
 
@@ -24,6 +35,7 @@ class Autores extends ActiveRecord
     {
         return [
             'nombre' => 'Nombre',
+            'fechanac' => 'Fecha de nac.',
         ];
     }
 

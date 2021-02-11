@@ -49,6 +49,7 @@ $config = [
         'log' => $log,
         'db' => $db,
         'formatter' => [
+            'dateFormat' => 'long',
             'timeZone' => 'Europe/Madrid',
         ],
         /*

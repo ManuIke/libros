@@ -15,6 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $autor,
     'attributes' => [
         'nombre',
+        [
+            'attribute' => 'fechanac',
+            'format' => 'date',
+        ],
     ],
 ]) ?>
 

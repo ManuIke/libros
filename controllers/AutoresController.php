@@ -16,21 +16,6 @@ class AutoresController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                '__class' => AccessControl::class,
-                'only' => ['create'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            $user = Yii::$app->user->identity;
-                            return $user && $user->nombre == 'juan';
-                        },
-                    ],
-                ],
-            ],
             'verbs' => [
                 '__class' => VerbFilter::class,
                 'actions' => [

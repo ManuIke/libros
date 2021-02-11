@@ -12,10 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'columns' => [
         'nombre',
-        [
-            'attribute' => 'fechanac',
-            'format' => 'date',
-        ],
+        'fechanac:date:Fecha',
         ['__class' => ActionColumn::class],
     ],
 ]) ?>

@@ -18,16 +18,7 @@ class Autores extends ActiveRecord
         return [
             [['nombre'], 'required'],
             [['nombre'], 'string', 'max' => 255],
-            [
-                ['fechanac'],
-                'date',
-                'format' => 'php:' . Yii::$app->params['dateInputFormat'],
-            ],
-            [
-                ['fechanac'],
-                'filter',
-                'filter' => [Utilidad::class, 'convertirFormatoFecha'],
-            ],
+            [['fechanac'], 'safe'],
         ];
     }
 

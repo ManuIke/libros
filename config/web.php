@@ -69,6 +69,11 @@ $config = [
             'yii\grid\GridView' => ['filterErrorOptions' => ['class' => 'invalid-feedback']],
         ],
     ],
+    'modules' => [
+        'datecontrol' =>  [
+            'class' => kartik\datecontrol\Module::class,
+        ],
+    ],
     'params' => $params,
 ];
 

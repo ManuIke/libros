@@ -1,5 +1,6 @@
 <?php
 
+use kartik\datecontrol\DateControl;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
@@ -13,8 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $form = ActiveForm::begin() ?>
     <?= $form->field($autor, 'nombre') ?>
-    <?= $form->field($autor, 'fechanac', [
-        'inputOptions' => ['placeholder' => 'DD-MM-YYYY']
+    <?= $form->field($autor, 'fechanac')->widget(DateControl::class, [
+        'type' => DateControl::FORMAT_DATE,
+        'ajaxConversion' => false,
+        'widgetOptions' => [
+            'pluginOptions' => [
+                'autoclose' => true
+            ],
+        ],
     ]) ?>
 
     <div class="form-group">

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Autores;
+use app\models\AutoresLibros;
 use app\models\Libros;
 use app\models\LibrosSearch;
 use Yii;
@@ -54,9 +55,31 @@ class LibrosController extends Controller
     public function actionView($id)
     {
         $libro = $this->findLibro($id);
+        $dataProviderAutores = new ActiveDataProvider([
+            'query' => $libro->getAutores(),
+        ]);
+        $autoresLibros = new AutoresLibros([
+            'scenario' => AutoresLibros::SCENARIO_LIBROS_VIEW,
+            'libro_id' => $id,
+        ]);
+        $listaAutores = Autores::find()
+            ->select('nombre')
+            ->where(['not in', 'id', $libro->getAutores()->select('id')])
+            ->indexBy('id')
+            ->orderBy('nombre')
+            ->column();
+
+        if ($autoresLibros->load(Yii::$app->request->post())
+            && $autoresLibros->save()) {
+            Yii::$app->session->setFlash('success', 'Autor añadido con éxito.');
+            return $this->redirect(['libros/view', 'id' => $id]);
+        }
 
         return $this->render('view', [
             'libro' => $libro,
+            'dataProviderAutores' => $dataProviderAutores,
+            'autoresLibros' => $autoresLibros,
+            'listaAutores' => $listaAutores,
         ]);
     }
 

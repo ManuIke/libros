@@ -15,6 +15,8 @@ use Yii;
  */
 class AutoresLibros extends \yii\db\ActiveRecord
 {
+    const SCENARIO_LIBROS_VIEW = 'libros/view';
+
     /**
      * {@inheritdoc}
      */
@@ -36,6 +38,16 @@ class AutoresLibros extends \yii\db\ActiveRecord
             [['autor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Autores::class, 'targetAttribute' => ['autor_id' => 'id']],
             [['libro_id'], 'exist', 'skipOnError' => true, 'targetClass' => Libros::class, 'targetAttribute' => ['libro_id' => 'id']],
         ];
+    }
+
+    public function scenarios()
+    {
+        return array_merge(parent::scenarios(), [
+            self::SCENARIO_LIBROS_VIEW => [
+                'autor_id',
+                '!libro_id',
+            ],
+        ]);
     }
 
     /**

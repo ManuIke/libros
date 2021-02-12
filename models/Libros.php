@@ -58,4 +58,10 @@ class Libros extends \yii\db\ActiveRecord
         return $this->hasMany(AutoresLibros::class, ['libro_id' => 'id'])
             ->inverseOf('libro');
     }
+
+    public function getAutores()
+    {
+        return $this->hasMany(Autores::class, ['id' => 'autor_id'])
+            ->via('autoresLibros');
+    }
 }

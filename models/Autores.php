@@ -46,4 +46,10 @@ class Autores extends ActiveRecord
         
         return true;
     }
+
+    public function getLibros()
+    {
+        return $this->hasMany(Libros::class, ['id' => 'libro_id'])
+            ->via('autoresLibros');
+    }
 }

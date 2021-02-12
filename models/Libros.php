@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "libros".
  *
@@ -11,9 +9,8 @@ use Yii;
  * @property string $isbn
  * @property string $titulo
  * @property float|null $anyo
- * @property int $autor_id
  *
- * @property Autores $autor
+ * @property AutoresLibros[] $autoresLibros
  */
 class Libros extends \yii\db\ActiveRecord
 {
@@ -56,14 +53,9 @@ class Libros extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Autor]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAutor()
+    public function getAutoresLibros()
     {
-        return $this->hasOne(Autores::class, ['id' => 'autor_id'])
-            ->inverseOf('libros');
+        return $this->hasMany(AutoresLibros::class, ['libro_id' => 'id'])
+            ->inverseOf('libro');
     }
 }

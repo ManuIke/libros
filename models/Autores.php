@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use app\components\Utilidad;
-use Yii;
 use yii\db\ActiveRecord;
 
 class Autores extends ActiveRecord
@@ -30,9 +28,9 @@ class Autores extends ActiveRecord
         ];
     }
 
-    public function getLibros()
+    public function getAutoresLibros()
     {
-        return $this->hasMany(Libros::class, ['autor_id' => 'id'])
+        return $this->hasMany(AutoresLibros::class, ['autor_id' => 'id'])
             ->inverseOf('autor');
     }
 

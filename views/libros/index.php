@@ -15,10 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'isbn',
         'titulo',
         'anyo',
-        [
-            'attribute' => 'autor.nombre',
-            'label' => 'Autor',
-        ],
         ['__class' => ActionColumn::class],
     ],
 ]) ?>

@@ -12,8 +12,6 @@ class LibrosSearch extends Libros
         return [
             [['anyo'], 'number'],
             [['autor.nombre'], 'safe'],
-            [['autor_id'], 'default', 'value' => null],
-            [['autor_id'], 'integer'],
             [['isbn'], 'string', 'max' => 13],
             [['titulo'], 'string', 'max' => 255],
         ];
@@ -31,16 +29,11 @@ class LibrosSearch extends Libros
 
     public function search($params)
     {
-        $query = Libros::find()->joinWith('autor a');
+        $query = Libros::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        $dataProvider->sort->attributes['autor.nombre'] = [
-            'asc' => ['a.nombre' => SORT_ASC],
-            'desc' => ['a.nombre' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -54,11 +47,6 @@ class LibrosSearch extends Libros
         ]);
 
         $query->andFilterWhere(['ilike', 'titulo', $this->titulo]);
-        $query->andFilterWhere([
-            'ilike',
-            'a.nombre',
-            $this->getAttribute('autor.nombre')
-        ]);
 
         return $dataProvider;
     }

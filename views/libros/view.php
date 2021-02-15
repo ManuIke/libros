@@ -52,7 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ],
 ]) ?>
 
-<?php $form = ActiveForm::begin() ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'agregar-autor',
+    'enableAjaxValidation' => true,
+]) ?>
     <?= $form->field($autoresLibros, 'autor_id')
         ->dropDownList($listaAutores) ?>
 

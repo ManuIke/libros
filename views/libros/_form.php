@@ -5,12 +5,13 @@ use yii\bootstrap4\Html;
 
 ?>
 
-<?php $form = ActiveForm::begin() ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'libros-create',
+]) ?>
 
-    <?= $form->field($libro, 'isbn') ?>
+    <?= $form->field($libro, 'isbn', ['enableAjaxValidation' => true]) ?>
     <?= $form->field($libro, 'titulo') ?>
     <?= $form->field($libro, 'anyo') ?>
-    <?= $form->field($libro, 'autor_id')->dropDownList($listaAutores) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>

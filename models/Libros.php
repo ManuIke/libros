@@ -28,14 +28,11 @@ class Libros extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isbn', 'titulo', 'autor_id'], 'required'],
+            [['isbn', 'titulo'], 'required'],
             [['anyo'], 'number'],
-            [['autor_id'], 'default', 'value' => null],
-            [['autor_id'], 'integer'],
             [['isbn'], 'string', 'max' => 13],
             [['titulo'], 'string', 'max' => 255],
             [['isbn'], 'unique'],
-            [['autor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Autores::className(), 'targetAttribute' => ['autor_id' => 'id']],
         ];
     }
 
@@ -49,7 +46,6 @@ class Libros extends \yii\db\ActiveRecord
             'isbn' => 'ISBN',
             'titulo' => 'Título',
             'anyo' => 'Año',
-            'autor_id' => 'Autor',
         ];
     }
 

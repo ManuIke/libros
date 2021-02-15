@@ -7,10 +7,12 @@ use app\models\AutoresLibros;
 use app\models\Libros;
 use app\models\LibrosSearch;
 use Yii;
+use yii\bootstrap4\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class LibrosController extends Controller
 {
@@ -31,13 +33,17 @@ class LibrosController extends Controller
     {
         $libro = new Libros();
 
+        if (Yii::$app->request->isAjax && $libro->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($libro);
+        }
+
         if ($libro->load(Yii::$app->request->post()) && $libro->save()) {
             return $this->redirect(['libros/index']);
         }
 
         return $this->render('create', [
             'libro' => $libro,
-            'listaAutores' => $this->listaAutores(),
         ]);
     }
 
@@ -51,7 +57,6 @@ class LibrosController extends Controller
 
         return $this->render('update', [
             'libro' => $libro,
-            'listaAutores' => $this->listaAutores(),
         ]);
     }
 
@@ -82,6 +87,11 @@ class LibrosController extends Controller
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();
+
+        if (Yii::$app->request->isAjax && $autoresLibros->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($autoresLibros);
+        }
 
         if ($autoresLibros->load(Yii::$app->request->post())
             && $autoresLibros->save()) {
@@ -131,10 +141,4 @@ class LibrosController extends Controller
 
         return $libro;
     }
-
-    private function listaAutores()
-    {
-        return Autores::find()->select('nombre')->indexBy('id')->column();
-    }
-
 }

@@ -9,5 +9,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= $this->render('_form', [
     'libro' => $libro,
-    'listaAutores' => $listaAutores,
 ]) ?>

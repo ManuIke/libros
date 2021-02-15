@@ -24,23 +24,27 @@ $this->params['breadcrumbs'][] = $this->title;
 <h3>Autores</h3>
 
 <?= GridView::widget([
-    'dataProvider' => $dataProviderAutores,
+    'dataProvider' => $dataProviderAutoresLibros,
     'columns' => [
-        'nombre',
-        'fechanac:date',
+        'autor.nombre',
+        'autor.fechanac:date',
         [
             '__class' => ActionColumn::class,
             'template' => '{delete}',
             'buttons' => [
-                'delete' => function ($url, $model, $key) use ($libro) {
+                'delete' => function ($url, $model, $key) {
                     return Html::a(
                         'Quitar',
                         [
                             'libros/borrar-autor',
-                            'autor_id' => $key,
-                            'libro_id' => $libro->id
+                            'autor_id' => $key['autor_id'],
+                            'libro_id' => $key['libro_id'],
                         ],
-                        ['class' => 'btn-sm btn-danger']
+                        [
+                            'class' => 'btn-sm btn-danger',
+                            'data-method' => 'POST',
+                            'data-confirm' => '¿Está seguro?',
+                        ],
                     );
                 }
             ],

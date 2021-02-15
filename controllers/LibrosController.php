@@ -69,8 +69,8 @@ class LibrosController extends Controller
     public function actionView($id)
     {
         $libro = $this->findLibro($id);
-        $dataProviderAutores = new ActiveDataProvider([
-            'query' => $libro->getAutores(),
+        $dataProviderAutoresLibros = new ActiveDataProvider([
+            'query' => $libro->getAutoresLibros(),
         ]);
         $autoresLibros = new AutoresLibros([
             'scenario' => AutoresLibros::SCENARIO_LIBROS_VIEW,
@@ -78,7 +78,7 @@ class LibrosController extends Controller
         ]);
         $listaAutores = Autores::find()
             ->select('nombre')
-            ->where(['not in', 'id', $libro->getAutores()->select('id')])
+            ->where(['not in', 'id', $libro->getAutoresLibros()->select('autor_id')])
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();
@@ -91,7 +91,7 @@ class LibrosController extends Controller
 
         return $this->render('view', [
             'libro' => $libro,
-            'dataProviderAutores' => $dataProviderAutores,
+            'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
             'autoresLibros' => $autoresLibros,
             'listaAutores' => $listaAutores,
         ]);

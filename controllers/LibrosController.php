@@ -8,11 +8,25 @@ use app\models\Libros;
 use app\models\LibrosSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class LibrosController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                '__class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                    'borrar-autor' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $libro = new Libros();
@@ -90,15 +104,32 @@ class LibrosController extends Controller
         }
     }
     
+    public function actionBorrarAutor($autor_id, $libro_id)
+    {
+        $autorLibro = AutoresLibros::findOne([
+            'autor_id' => $autor_id,
+            'libro_id' => $libro_id,
+        ]);
+
+        if ($autorLibro === null) {
+            throw new NotFoundHttpException('Esa relación no existe.');
+        }
+
+        $autorLibro->delete();
+        Yii::$app->session->setFlash('success', 'Se ha quitado ese autor del libro.');
+
+        return $this->redirect(['libros/view', 'id' => $libro_id]);
+    }
+
     private function findLibro($id)
     {
-        $autor = Libros::findOne($id);
+        $libro = Libros::findOne($id);
 
-        if ($autor === null) {
+        if ($libro === null) {
             throw new NotFoundHttpException('Ese libro no existe.');
         }
 
-        return $autor;
+        return $libro;
     }
 
     private function listaAutores()

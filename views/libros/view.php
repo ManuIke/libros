@@ -4,6 +4,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->title = 'Detalle del libro ' . Html::encode($libro['titulo']);
@@ -29,9 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'fechanac:date',
         [
             '__class' => ActionColumn::class,
-            // 'urlCreator' => function (string $action, mixed $model, mixed $key, int $index, ActionColumn $this) {
-                
-            // }
+            'template' => '{delete}',
+            'buttons' => [
+                'delete' => function ($url, $model, $key) use ($libro) {
+                    return Html::a(
+                        'Quitar',
+                        [
+                            'libros/borrar-autor',
+                            'autor_id' => $key,
+                            'libro_id' => $libro->id
+                        ],
+                        ['class' => 'btn-sm btn-danger']
+                    );
+                }
+            ],
         ],
     ],
 ]) ?>

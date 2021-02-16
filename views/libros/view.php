@@ -70,7 +70,7 @@ $this->registerJs($js);
 
 <?php $form = ActiveForm::begin([
     'id' => 'agregar-autor',
-    // 'enableAjaxValidation' => true,
+    'enableAjaxValidation' => true,
 ]) ?>
     <?= $form->field($autoresLibros, 'autor_id')
         ->dropDownList($listaAutores) ?>

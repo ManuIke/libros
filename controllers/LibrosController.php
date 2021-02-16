@@ -90,10 +90,10 @@ class LibrosController extends Controller
             ->orderBy('nombre')
             ->column();
 
-        // if (Yii::$app->request->isAjax && $autoresLibros->load(Yii::$app->request->post())) {
-        //     Yii::$app->response->format = Response::FORMAT_JSON;
-        //     return ActiveForm::validate($autoresLibros);
-        // }
+        if (Yii::$app->request->isAjax && $autoresLibros->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($autoresLibros);
+        }
 
         if ($autoresLibros->load(Yii::$app->request->post())
             && $autoresLibros->save()) {

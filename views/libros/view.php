@@ -31,6 +31,7 @@ $js = <<<EOT
                 if(data.success) {
                     // data is saved
                     $('#lista-autores').html(data.respuesta);
+                    $('option[value="' + autor_id + '"]').remove();
                 } else if (data.validation) {
                     // server validation failed
                     form.yiiActiveForm('updateMessages', data.validation, true); // renders validation messages at appropriate places

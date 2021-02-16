@@ -85,7 +85,7 @@ class LibrosController extends Controller
         ]);
         $listaAutores = Autores::find()
             ->select('nombre')
-            // ->where(['not in', 'id', $libro->getAutoresLibros()->select('autor_id')])
+            ->where(['not in', 'id', $libro->getAutoresLibros()->select('autor_id')])
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();

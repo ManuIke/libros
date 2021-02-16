@@ -109,6 +109,32 @@ class LibrosController extends Controller
         ]);
     }
 
+    public function actionBorrarAutorAjax()
+    {
+        if (Yii::$app->request->isAjax) {
+            $autor_id = Yii::$app->request->post('autor_id');
+            $libro_id = Yii::$app->request->post('libro_id');
+
+            $autorLibro = AutoresLibros::findOne([
+                'autor_id' => $autor_id,
+                'libro_id' => $libro_id,
+            ]);
+
+            if ($autorLibro === null) {
+                throw new NotFoundHttpException('Esa relación no existe.');
+            }
+
+            $autorLibro->delete();
+            $libro = $this->findLibro($autorLibro->libro_id);
+            $dataProviderAutoresLibros = new ActiveDataProvider([
+                'query' => $libro->getAutoresLibros(),
+            ]);
+            return $this->renderAjax('_lista-autores', [
+                'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
+            ]);
+        }
+    }
+
     public function actionAgregarAutorAjax()
     {
         $autoresLibros = new AutoresLibros();

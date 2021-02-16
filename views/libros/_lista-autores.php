@@ -24,7 +24,7 @@ use yii\grid\GridView;
                             'libro_id' => $key['libro_id'],
                         ],
                         [
-                            'class' => 'btn-sm btn-danger',
+                            'class' => 'btn-sm btn-danger quitar',
                             'data-method' => 'POST',
                             'data-confirm' => '¿Está seguro?',
                         ],

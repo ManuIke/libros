@@ -88,10 +88,10 @@ class LibrosController extends Controller
             ->orderBy('nombre')
             ->column();
 
-        if (Yii::$app->request->isAjax && $autoresLibros->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($autoresLibros);
-        }
+        // if (Yii::$app->request->isAjax && $autoresLibros->load(Yii::$app->request->post())) {
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return ActiveForm::validate($autoresLibros);
+        // }
 
         if ($autoresLibros->load(Yii::$app->request->post())
             && $autoresLibros->save()) {
@@ -104,6 +104,21 @@ class LibrosController extends Controller
             'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
             'autoresLibros' => $autoresLibros,
             'listaAutores' => $listaAutores,
+        ]);
+    }
+
+    public function actionAgregarAutorAjax()
+    {
+        $autoresLibros = new AutoresLibros();
+        if ($autoresLibros->load(Yii::$app->request->post())) {
+            $autoresLibros->save();
+        }
+        $libro = $this->findLibro($autoresLibros->libro_id);
+        $dataProviderAutoresLibros = new ActiveDataProvider([
+            'query' => $libro->getAutoresLibros(),
+        ]);
+        return $this->renderAjax('_lista-autores', [
+            'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
         ]);
     }
 

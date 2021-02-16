@@ -10,6 +10,30 @@ use yii\widgets\DetailView;
 $this->title = 'Detalle del libro ' . Html::encode($libro['titulo']);
 $this->params['breadcrumbs'][] = ['label' => 'Libros', 'url' => ['libros/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$url = Url::to(['libros/agregar-autor-ajax']);
+$libro_id = $libro->id;
+$js = <<<EOT
+    $('#enviar').on('click', function (ev) {
+        var autor_id = $('#autoreslibros-autor_id').val();
+        $.ajax({
+            type: 'POST',
+            url: '$url',
+            data: {
+                AutoresLibros: {
+                    libro_id: $libro_id,
+                    autor_id: autor_id
+                }
+            }
+        })
+            .done(function (data) {
+                $('#lista-autores').html(data);
+            });
+
+        return false;
+    });
+EOT;
+$this->registerJs($js);
 ?>
 
 <?= DetailView::widget([
@@ -23,43 +47,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <h3>Autores</h3>
 
-<?= GridView::widget([
-    'dataProvider' => $dataProviderAutoresLibros,
-    'columns' => [
-        'autor.nombre',
-        'autor.fechanac:date',
-        [
-            '__class' => ActionColumn::class,
-            'template' => '{delete}',
-            'buttons' => [
-                'delete' => function ($url, $model, $key) {
-                    return Html::a(
-                        'Quitar',
-                        [
-                            'libros/borrar-autor',
-                            'autor_id' => $key['autor_id'],
-                            'libro_id' => $key['libro_id'],
-                        ],
-                        [
-                            'class' => 'btn-sm btn-danger',
-                            'data-method' => 'POST',
-                            'data-confirm' => '¿Está seguro?',
-                        ],
-                    );
-                }
-            ],
-        ],
-    ],
-]) ?>
+<div id="lista-autores">
+    <?= $this->render('_lista-autores', [
+        'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
+    ]) ?>
+</div>
 
 <?php $form = ActiveForm::begin([
     'id' => 'agregar-autor',
-    'enableAjaxValidation' => true,
+    // 'enableAjaxValidation' => true,
 ]) ?>
     <?= $form->field($autoresLibros, 'autor_id')
         ->dropDownList($listaAutores) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Añadir', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Añadir', [
+            'class' => 'btn btn-success',
+            'id' => 'enviar',
+        ]) ?>
     </div>
 <?php ActiveForm::end() ?>

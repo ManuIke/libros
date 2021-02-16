@@ -56,8 +56,8 @@ class AutoresLibros extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'autor_id' => 'Autores ID',
-            'libro_id' => 'Libros ID',
+            'autor_id' => 'Autor',
+            'libro_id' => 'Libro',
         ];
     }
 

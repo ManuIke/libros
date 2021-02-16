@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 $url = Url::to(['libros/agregar-autor-ajax']);
 $libro_id = $libro->id;
 $js = <<<EOT
-    $('#enviar').on('click', function (ev) {
+    $('#agregar-autor').on('beforeSubmit', function (ev) {
+        var form = $(this);
         var autor_id = $('#autoreslibros-autor_id').val();
         $.ajax({
             type: 'POST',
@@ -26,9 +27,23 @@ $js = <<<EOT
                 }
             }
         })
-            .done(function (data) {
-                $('#lista-autores').html(data);
+            .done(function(data) {
+                if(data.success) {
+                    // data is saved
+                    $('#lista-autores').html(data.respuesta);
+                } else if (data.validation) {
+                    // server validation failed
+                    form.yiiActiveForm('updateMessages', data.validation, true); // renders validation messages at appropriate places
+                } else {
+                    // incorrect server response
+                }
+            })
+            .fail(function () {
+                // request failed
             });
+            // .done(function (data) {
+            //     $('#lista-autores').html(data);
+            // });
 
         return false;
     });

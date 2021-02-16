@@ -8,6 +8,7 @@ use app\models\Libros;
 use app\models\LibrosSearch;
 use Yii;
 use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -24,6 +25,7 @@ class LibrosController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'borrar-autor' => ['POST'],
+                    'agregar-autor-ajax' => ['POST'],
                 ],
             ],
         ];
@@ -83,7 +85,7 @@ class LibrosController extends Controller
         ]);
         $listaAutores = Autores::find()
             ->select('nombre')
-            ->where(['not in', 'id', $libro->getAutoresLibros()->select('autor_id')])
+            // ->where(['not in', 'id', $libro->getAutoresLibros()->select('autor_id')])
             ->indexBy('id')
             ->orderBy('nombre')
             ->column();
@@ -110,16 +112,30 @@ class LibrosController extends Controller
     public function actionAgregarAutorAjax()
     {
         $autoresLibros = new AutoresLibros();
-        if ($autoresLibros->load(Yii::$app->request->post())) {
-            $autoresLibros->save();
+
+        if (Yii::$app->request->isAjax) {
+            if ($autoresLibros->load(Yii::$app->request->post())
+                    && $autoresLibros->save()) {
+                $libro = $this->findLibro($autoresLibros->libro_id);
+                $dataProviderAutoresLibros = new ActiveDataProvider([
+                    'query' => $libro->getAutoresLibros(),
+                ]);
+                $respuesta = $this->renderAjax('_lista-autores', [
+                    'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
+                ]);
+                return $this->asJson([
+                    'success' => true,
+                    'respuesta' => $respuesta,
+                ]);
+            }
+
+            $result = [];
+            foreach ($autoresLibros->getErrors() as $attribute => $errors) {
+                $result[Html::getInputId($autoresLibros, $attribute)] = $errors;
+            }
+
+            return $this->asJson(['validation' => $result]);
         }
-        $libro = $this->findLibro($autoresLibros->libro_id);
-        $dataProviderAutoresLibros = new ActiveDataProvider([
-            'query' => $libro->getAutoresLibros(),
-        ]);
-        return $this->renderAjax('_lista-autores', [
-            'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
-        ]);
     }
 
     public function actionDelete($id)

@@ -12,28 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Libros', 'url' => ['libros/index']
 $this->params['breadcrumbs'][] = $this->title;
 
 $url = Url::to(['libros/agregar-autor-ajax']);
-$urlQuitar = Url::to(['libros/borrar-autor-ajax']);
-
 $libro_id = $libro->id;
 $js = <<<EOT
-    $('.quitar').on('click', function (ev) {
-        var tr = $(this).closest('tr');
-        var key = tr.data('key');
-        var autor_id = key.autor_id;
-        var libro_id = key.libro_id;
-        $.ajax({
-            type: 'POST',
-            url: '$urlQuitar',
-            data: {
-                libro_id: libro_id,
-                autor_id: autor_id
-            }
-        })
-            .done(function (data) {
-                $('#lista-autores').html(data);
-            });
-    });
-
     $('#agregar-autor').on('beforeSubmit', function (ev) {
         var form = $(this);
         var autor_id = $('#autoreslibros-autor_id').val();

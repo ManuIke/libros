@@ -66,6 +66,17 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionCorreo()
+    {
+        Yii::$app->mailer->compose()
+            ->setTo('ricardo@iesdonana.org')
+            ->setFrom(Yii::$app->params['smtpUsername'])
+            ->setSubject('Mensaje de prueba')
+            ->setTextBody('Esto es un mensaje de prueba de correo desde la aplicación de Biblioteca del IES Doñana')
+            ->send();
+        return $this->goHome();
+    }
+
     /**
      * Displays homepage.
      *

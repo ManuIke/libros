@@ -11,45 +11,6 @@ $this->title = 'Detalle del libro ' . Html::encode($libro['titulo']);
 $this->params['breadcrumbs'][] = ['label' => 'Libros', 'url' => ['libros/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$url = Url::to(['libros/agregar-autor-ajax']);
-$libro_id = $libro->id;
-$js = <<<EOT
-    $('#agregar-autor').on('beforeSubmit', function (ev) {
-        var form = $(this);
-        var autor_id = $('#autoreslibros-autor_id').val();
-        $.ajax({
-            type: 'POST',
-            url: '$url',
-            data: {
-                AutoresLibros: {
-                    libro_id: $libro_id,
-                    autor_id: autor_id
-                }
-            }
-        })
-            .done(function(data) {
-                if(data.success) {
-                    // data is saved
-                    $('#lista-autores').html(data.respuesta);
-                    $('option[value="' + autor_id + '"]').remove();
-                } else if (data.validation) {
-                    // server validation failed
-                    form.yiiActiveForm('updateMessages', data.validation, true); // renders validation messages at appropriate places
-                } else {
-                    // incorrect server response
-                }
-            })
-            .fail(function () {
-                // request failed
-            });
-            // .done(function (data) {
-            //     $('#lista-autores').html(data);
-            // });
-
-        return false;
-    });
-EOT;
-$this->registerJs($js);
 ?>
 
 <?= DetailView::widget([
@@ -69,17 +30,8 @@ $this->registerJs($js);
     ]) ?>
 </div>
 
-<?php $form = ActiveForm::begin([
-    'id' => 'agregar-autor',
-    'enableAjaxValidation' => true,
+<?= $this->render('_form-agregar-autores', [
+    'autoresLibros' => $autoresLibros,
+    'libro' => $libro,
+    'listaAutores' => $listaAutores,
 ]) ?>
-    <?= $form->field($autoresLibros, 'autor_id')
-        ->dropDownList($listaAutores) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Añadir', [
-            'class' => 'btn btn-success',
-            'id' => 'enviar',
-        ]) ?>
-    </div>
-<?php ActiveForm::end() ?>

@@ -31,6 +31,31 @@ class LibrosController extends Controller
         ];
     }
 
+    public function actionConsulta()
+    {
+        $lista = Libros::find()
+            ->select('titulo')
+            ->indexBy('id')
+            ->column();
+
+        return $this->render('consulta', [
+            'lista' => $lista,
+        ]);
+    }
+
+    public function actionAutoresAjax($libro_id)
+    {
+        if (Yii::$app->request->isAjax) {
+            $libro = $this->findLibro($libro_id);
+            $dataProviderAutoresLibros = new ActiveDataProvider([
+                'query' => $libro->getAutoresLibros(),
+            ]);
+            return $this->renderAjax('_lista-autores', [
+                'dataProviderAutoresLibros' => $dataProviderAutoresLibros,
+            ]);
+        }
+    }
+
     public function actionCreate()
     {
         $libro = new Libros();

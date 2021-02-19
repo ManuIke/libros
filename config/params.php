@@ -3,6 +3,7 @@
 use kartik\datecontrol\Module;
 
 return [
+    'smtpUsername' => 'iesdonana2021@gmail.com',
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',

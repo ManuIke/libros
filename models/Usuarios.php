@@ -14,6 +14,7 @@ use yii\web\IdentityInterface;
  * @property string|null $auth_key
  * @property string|null $telefono
  * @property string|null $poblacion
+ * @property string|null $email
  */
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -36,9 +37,10 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['nombre'], 'required'],
+            [['nombre', 'email'], 'required'],
             [['nombre'], 'unique'],
             [['nombre', 'auth_key', 'telefono', 'poblacion'], 'string', 'max' => 255],
+            [['email'], 'email'],
             [['password', 'password_repeat'], 'required', 'on' => [self::SCENARIO_CREATE]],
             [['password'], 'compare', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['password_repeat'], 'safe', 'on' => [self::SCENARIO_UPDATE]],
@@ -62,6 +64,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => 'Auth Key',
             'telefono' => 'Teléfono',
             'poblacion' => 'Población',
+            'email' => 'Dirección de correo'
         ];
     }
 
@@ -125,5 +128,16 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security
             ->validatePassword($password, $this->password);
+    }
+
+    public function validarActivacion()
+    {
+        return $this->pendiente === null;
+    }
+
+    public function getPendiente()
+    {
+        return $this->hasOne(Pendientes::class, ['id' => 'id'])
+            ->inverseOf('usuario');
     }
 }

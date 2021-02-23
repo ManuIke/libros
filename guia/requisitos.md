@@ -343,6 +343,15 @@
 | **Entrega**     | v1             |
 | **Incidencia**  | [40](https://github.com/iesdonana/libros/issues/40) |
 
+| **R39**     | **Uso de pretty URLs**         |
+| --------------: | :------------------- |
+| **Descripción** | La aplicación usará URLs bonitas.             |
+| **Prioridad**   | Importante           |
+| **Tipo**        | Técnico                |
+| **Complejidad** | Fácil         |
+| **Entrega**     | v1             |
+| **Incidencia**  | [41](https://github.com/iesdonana/libros/issues/41) |
+
 
 ## Cuadro resumen
 
@@ -386,3 +395,4 @@
 | (**R36**) Varios navegadores | Mínimo | Técnico | Fácil | v1 | | **Incidencia**  | [38](https://github.com/iesdonana/libros/issues/38) |
 | (**R37**) Despliegue en un Host | Mínimo | Técnico | Fácil | v1 | | **Incidencia**  | [39](https://github.com/iesdonana/libros/issues/39) |
 | (**R38**) Despliegue en un servidor local | Mínimo | Técnico | Fácil | v1 | | **Incidencia**  | [40](https://github.com/iesdonana/libros/issues/40) |
+| (**R39**) Uso de pretty URLs | Importante | Técnico | Fácil | v1 | | **Incidencia**  | [41](https://github.com/iesdonana/libros/issues/41) |

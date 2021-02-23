@@ -149,8 +149,17 @@ class UsuariosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $usuario = $this->findModel($id);
 
+        if ($id == Yii::$app->user->id) {
+            Yii::$app->session->setFlash(
+                'error',
+                'El usuario no puede borrarse a sí mismo.'
+            );
+            return $this->redirect(['usuarios/index']);
+        }
+
+        $usuario->delete();
         return $this->redirect(['index']);
     }
 

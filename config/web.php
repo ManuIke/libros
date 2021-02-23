@@ -52,14 +52,21 @@ $config = [
             'dateFormat' => 'long',
             'timeZone' => 'Europe/Madrid',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'usuarios/view/<id:\d+>' => 'usuarios/view',
+                'usuarios/update/<id:\d+>' => 'usuarios/update',
+                'usuarios/delete/<id:\d+>' => 'usuarios/delete',
+                'autores/view/<id:\d+>' => 'autores/view',
+                'autores/update/<id:\d+>' => 'autores/update',
+                'autores/delete/<id:\d+>' => 'autores/delete',
+                'libros/view/<id:\d+>' => 'libros/view',
+                'libros/update/<id:\d+>' => 'libros/update',
+                'libros/delete/<id:\d+>' => 'libros/delete',
             ],
         ],
-        */
     ],
     'container' => [
         'definitions' => [

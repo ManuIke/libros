@@ -14,7 +14,7 @@ class UsuariosController extends Controller
 {
     /**
      * Borra los usuarios no activados antes de 48 horas.
-     * 
+     *
      * @param int $dias Número máximo de días para activar la cuenta.
      */
     public function actionBorrarDesactivados(int $dias = 2)

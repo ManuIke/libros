@@ -47,6 +47,10 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
+            if (!$user) {
+                $this->addError($attribute, 'El usuario no existe.');
+            }
+
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             } elseif (!$user->validarActivacion()) {
@@ -64,6 +68,8 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
+        var_dump($this->attributes);
+        var_dump($this->errors);
         return false;
     }
 

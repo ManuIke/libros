@@ -31,7 +31,7 @@ class AutoresController extends Controller
 
         if ($autor->load(Yii::$app->request->post()) && $autor->save()) {
             Yii::$app->session->setFlash('success', 'El autor se ha podido crear correctamente.');
-            return $this->redirect(['autores/index']);    
+            return $this->redirect(['autores/index']);
         }
 
         return $this->render('create', [
@@ -73,7 +73,7 @@ class AutoresController extends Controller
             Yii::$app->session->setFlash('error', 'El autor tiene libros asociados.');
         }
 
-        return $this->redirect(['autores/index']);    
+        return $this->redirect(['autores/index']);
     }
 
     public function actionPrueba()
@@ -94,7 +94,7 @@ class AutoresController extends Controller
 
         if ($autor->load(Yii::$app->request->post()) && $autor->save()) {
             Yii::$app->session->setFlash('success', 'El autor se ha podido modificar correctamente.');
-            return $this->redirect(['autores/index']);    
+            return $this->redirect(['autores/index']);
         }
 
         return $this->render('update', [

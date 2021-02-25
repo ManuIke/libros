@@ -21,7 +21,7 @@ class CalculadoraController extends Controller
 
         if ($calculadoraForm->load(Yii::$app->request->queryParams)
             && $calculadoraForm->validate()) {
-            $resultado = $this->_calcular(
+            $resultado = $this->calcular(
                 $calculadoraForm->op1,
                 $calculadoraForm->op2,
                 $calculadoraForm->op
@@ -46,7 +46,7 @@ class CalculadoraController extends Controller
         ]);
     }
 
-    private function _calcular($op1, $op2, $op)
+    private function calcular($op1, $op2, $op)
     {
         switch ($op) {
             case '+':

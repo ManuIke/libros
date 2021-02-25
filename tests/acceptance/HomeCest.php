@@ -9,10 +9,10 @@ class HomeCest
         $I->amOnPage(Url::toRoute('/site/index'));        
         $I->see('My Application');
         
-        $I->seeLink('About');
-        $I->click('About');
+        $I->seeLink('Autores');
+        $I->click('Autores');
         $I->wait(2); // wait for page to be opened
         
-        $I->see('This is the About page.');
+        $I->see('Crear un nuevo autor');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\Html;
+use yii\bootstrap\Html as BootstrapHtml;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -32,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
             'telefono',
             'poblacion',
+            [
+                'label' => 'Foto',
+                'value' => Html::img($model->imagen),
+                'format' => 'html',
+            ],
         ],
     ]) ?>
 

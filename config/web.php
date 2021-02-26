@@ -13,6 +13,8 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@uploads' => dirname(__DIR__) . '/web/uploads',
+        '@uploadsUrl' => '/uploads',
     ],
     'language' => 'es-ES',
     'components' => [

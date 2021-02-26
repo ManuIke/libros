@@ -2,16 +2,19 @@
 
 namespace app\controllers;
 
+use app\models\FotoForm;
 use app\models\Pendientes;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
 use Http\Discovery\Exception\NotFoundException;
 use yii\bootstrap4\Html;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * UsuariosController implements the CRUD actions for Usuarios model.
@@ -30,7 +33,34 @@ class UsuariosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                '__class' => AccessControl::class,
+                'only' => ['foto'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
         ];
+    }
+
+    public function actionFoto()
+    {
+        $fotoForm = new FotoForm();
+
+        if (Yii::$app->request->isPost) {
+            $fotoForm->imageFile = UploadedFile::getInstance($fotoForm, 'imageFile');
+            if ($fotoForm->upload()) {
+                // el archivo se subió exitosamente
+                return $this->redirect(['usuarios/index']);
+            }
+        }
+
+        return $this->render('foto', [
+            'fotoForm' => $fotoForm,
+        ]);
     }
 
     /**

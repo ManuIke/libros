@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -139,5 +140,10 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Pendientes::class, ['id' => 'id'])
             ->inverseOf('usuario');
+    }
+
+    public function getImagen()
+    {
+        return Yii::getAlias('@uploadsUrl/') . $this->id . '.jpg';
     }
 }

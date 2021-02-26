@@ -1,5 +1,7 @@
 <?php
 
+use yii\web\DbSession;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $log = require __DIR__ . '/log.php';
@@ -66,6 +68,9 @@ $config = [
                 'libros/update/<id:\d+>' => 'libros/update',
                 'libros/delete/<id:\d+>' => 'libros/delete',
             ],
+        ],
+        'session' => [
+            '__class' => DbSession::class,
         ],
     ],
     'container' => [

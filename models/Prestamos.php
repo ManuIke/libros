@@ -33,9 +33,9 @@ class Prestamos extends \yii\db\ActiveRecord
     {
         return [
             [['libro_id', 'usuario_id'], 'required'],
-            [['libro_id', 'usuario_id'], 'default', 'value' => null],
+            [['libro_id', 'usuario_id', 'created_at', 'devolucion'], 'default', 'value' => null],
             [['libro_id', 'usuario_id'], 'integer'],
-            // [['created_at', 'devolucion'], 'safe'],
+            [['created_at', 'devolucion'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [['libro_id'], 'exist', 'skipOnError' => true, 'targetClass' => Libros::class, 'targetAttribute' => ['libro_id' => 'id']],
             [['usuario_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::class, 'targetAttribute' => ['usuario_id' => 'id']],
         ];

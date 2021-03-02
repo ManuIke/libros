@@ -15,7 +15,7 @@ use yii\web\IdentityInterface;
  * @property string|null $auth_key
  * @property string|null $telefono
  * @property string|null $poblacion
- * @property string|null $email
+ * @property string|nu[['created_at', 'devolucion'], 'safe'],ll $email
  */
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -139,6 +139,12 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     public function getPendiente()
     {
         return $this->hasOne(Pendientes::class, ['id' => 'id'])
+            ->inverseOf('usuario');
+    }
+
+    public function getPrestamos()
+    {
+        return $this->hasMany(Prestamos::class, ['usuario_id' => 'id'])
             ->inverseOf('usuario');
     }
 

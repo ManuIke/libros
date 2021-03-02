@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Libros;
 use app\models\Prestamos;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -25,6 +26,20 @@ class PrestamosController extends Controller
             $prestamo->save();
             return $this->renderAjax('_pendientes', [
                 'prestamosPendientes' => $this->pendientes(),
+            ]);
+        }
+    }
+
+    public function actionBuscarIsbnAjax($isbn)
+    {
+        if (Yii::$app->request->isAjax) {
+            $libro = Libros::findOne(['isbn' => $isbn]);
+            if ($libro === null) {
+                return $this->asJson(['encontrado' => false]);
+            }
+            return $this->asJson([
+                'encontrado' => true,
+                'titulo' => $libro->titulo,
             ]);
         }
     }
